@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calcolatore Regime Forfettario 2026: tasse, INPS e netto</title>
+<meta name="description" content="Calcola gratis tasse e contributi INPS nel regime forfettario 2026: imposta sostitutiva 5% o 15%, Gestione Separata, artigiani e commercianti con riduzione 35%, netto mensile.">
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--ink:#1d1d1b;--mute:#62625c;--line:#e3e3de;--accent:#1f6f5c;--warn:#a5481b}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--card:#20201e;--ink:#ecece8;--mute:#a3a39b;--line:#33332f;--accent:#5cc2a6;--warn:#f0905e}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:1.8rem;line-height:1.2;margin:.2em 0 .3em}
+h2{font-size:1.25rem;margin:2em 0 .5em}
+p.lead{color:var(--mute);margin-top:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+label{display:block;font-weight:600;font-size:.92rem;margin-bottom:4px}
+input,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.check{display:flex;gap:8px;align-items:center;font-weight:400}
+.check input{width:auto}
+.hint{font-size:.82rem;color:var(--mute);margin-top:4px}
+.results{margin-top:16px}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);gap:12px}
+.row:last-child{border-bottom:0}
+.big{font-size:1.5rem;font-weight:700;color:var(--accent)}
+.warn{color:var(--warn);font-weight:600}
+.cta{margin-top:24px;border-left:4px solid var(--accent)}
+.cta a{display:inline-block;margin-top:8px;background:var(--accent);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600}
+footer{margin-top:48px;font-size:.82rem;color:var(--mute)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<h1>Calcolatore regime forfettario 2026</h1>
+<p class="lead">Quante tasse e quanti contributi INPS paghi con la partita IVA forfettaria, e quanto ti resta in tasca. Gratis, senza registrazione: i dati restano nel tuo browser.</p>
+
+<div class="card">
+  <div class="grid">
+    <div>
+      <label for="ricavi">Ricavi/compensi annui (€)</label>
+      <input id="ricavi" type="number" min="0" step="100" value="30000" inputmode="decimal">
+    </div>
+    <div>
+      <label for="coef">Attività (coefficiente di redditività)</label>
+      <select id="coef">
+        <option value="78" selected>Professionisti, consulenti, sanità, istruzione (78%)</option>
+        <option value="67">Altre attività economiche (67%)</option>
+        <option value="86">Costruzioni e attività immobiliari (86%)</option>
+        <option value="62">Intermediari del commercio (62%)</option>
+        <option value="40">Commercio ingrosso/dettaglio, alloggio e ristorazione (40%)</option>
+        <option value="54">Commercio ambulante non alimentare (54%)</option>
+        <option value="40.01">Commercio ambulante alimentare (40%)</option>
+      </select>
+      <div class="hint">Dipende dal tuo codice ATECO.</div>
+    </div>
+    <div>
+      <label for="cassa">Previdenza</label>
+      <select id="cassa">
+        <option value="gs" selected>Gestione Separata INPS</option>
+        <option value="art">Artigiani INPS</option>
+        <option value="com">Commercianti INPS</option>
+        <option value="altra">Cassa professionale (aliquota personalizzata)</option>
+      </select>
+    </div>
+    <div id="boxAliq">
+      <label for="aliq">Aliquota contributiva (%)</label>
+      <input id="aliq" type="number" min="0" max="40" step="0.01" value="26.07">
+      <div class="hint" id="aliqHint"></div>
+    </div>
+    <div id="boxRid" hidden>
+      <label class="check"><input id="rid" type="checkbox"> Riduzione contributiva del 35%</label>
+      <div class="hint">Va richiesta all'INPS. Riduce anche la pensione futura.</div>
+    </div>
+    <div>
+      <label for="imp">Imposta sostitutiva</label>
+      <select id="imp">
+        <option value="15" selected>15% (ordinaria)</option>
+        <option value="5">5% (primi 5 anni, nuova attività)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="results" aria-live="polite">
+    <div class="row"><span>Reddito lordo (ricavi × coefficiente)</span><strong id="oLordo"></strong></div>
+    <div class="row"><span>Contributi INPS</span><strong id="oContr"></strong></div>
+    <div class="row"><span>Reddito imponibile</span><strong id="oImpon"></strong></div>
+    <div class="row"><span>Imposta sostitutiva</span><strong id="oImp"></strong></div>
+    <div class="row"><span>Totale tasse e contributi</span><strong id="oTot"></strong></div>
+    <div class="row"><span>Pressione sui ricavi</span><strong id="oPerc"></strong></div>
+    <div class="row"><span>Netto annuo</span><span class="big" id="oNetto"></span></div>
+    <div class="row"><span>Netto mensile (su 12 mesi)</span><strong id="oMese"></strong></div>
+    <p class="warn" id="oWarn" hidden></p>
+  </div>
+</div>
+
+<div class="card cta" id="cta" hidden>
+  <strong>Vuoi tenere sotto controllo tutto l'anno?</strong>
+  <p>Il foglio di calcolo per forfettari registra fatture e incassi mese per mese, calcola in automatico acconti, saldo e contributi, e ti avvisa quando ti avvicini al limite degli 85.000 €.</p>
+  <a id="ctaLink" href="#">Scarica il foglio (Google Sheets + Excel)</a>
+</div>
+
+<h2>Come funziona il calcolo</h2>
+<p>Nel regime forfettario non si deducono i costi reali: il reddito si ottiene moltiplicando i ricavi incassati per il <strong>coefficiente di redditività</strong> della tua attività. Da questo reddito si sottraggono i contributi previdenziali versati, e sul risultato si applica l'<strong>imposta sostitutiva</strong> del 15% (5% per i primi cinque anni di una nuova attività, se hai i requisiti).</p>
+<h2>Contributi INPS 2026</h2>
+<p><strong>Gestione Separata:</strong> si paga una percentuale del reddito lordo, senza minimi. <strong>Artigiani e commercianti:</strong> si paga una quota fissa sul reddito minimale di 18.808 € (circa 4.521 € per gli artigiani e 4.611 € per i commercianti), più il 24% (24,48% per i commercianti) sulla parte di reddito che supera il minimale. I forfettari possono chiedere la riduzione del 35%.</p>
+<h2>Limiti del regime</h2>
+<p>Si resta nel forfettario fino a 85.000 € di ricavi annui. Se li superi ma resti sotto i 100.000 €, esci dall'anno successivo; oltre i 100.000 € esci subito, dall'anno in corso.</p>
+
+<footer>
+<p>Stima semplificata a scopo informativo, non sostituisce un commercialista. Ipotesi: contributi dell'anno dedotti nello stesso anno, nessun altro reddito, valori 2026 da fonti pubbliche (circolari INPS). Ultimo aggiornamento: novembre 2026.</p>
+</footer>
+</main>
+<script>
+const MINIMALE = 18808;
+const FISSO = {art: 4521, com: 4611};
+const OLTRE = {art: 0.24, com: 0.2448};
+const PRODUCT_URL = ""; // link al prodotto, da inserire dopo la pubblicazione
+
+const $ = id => document.getElementById(id);
+const eur = n => n.toLocaleString("it-IT", {style: "currency", currency: "EUR", maximumFractionDigits: 0});
+
+function contributi(lordo, cassa) {
+  if (cassa === "art" || cassa === "com") {
+    let c = FISSO[cassa] + Math.max(0, lordo - MINIMALE) * OLTRE[cassa];
+    if ($("rid").checked) c *= 0.65;
+    return c;
+  }
+  const aliq = Math.max(0, parseFloat($("aliq").value) || 0);
+  return lordo * aliq / 100;
+}
+
+function calcola() {
+  const ricavi = Math.max(0, parseFloat($("ricavi").value) || 0);
+  const coef = Math.floor(parseFloat($("coef").value)) / 100;
+  const cassa = $("cassa").value;
+  const fissa = cassa === "art" || cassa === "com";
+  $("boxAliq").hidden = fissa;
+  $("boxRid").hidden = !fissa;
+  $("aliqHint").textContent = cassa === "gs"
+    ? "Gestione Separata 2026: 26,07% (alcune fonti indicano 26,23%)."
+    : "Inserisci l'aliquota della tua cassa (es. Inarcassa, Cassa Forense).";
+
+  const lordo = ricavi * coef;
+  const contr = contributi(lordo, cassa);
+  const impon = Math.max(0, lordo - contr);
+  const imp = impon * parseFloat($("imp").value) / 100;
+  const tot = contr + imp;
+  const netto = ricavi - tot;
+
+  $("oLordo").textContent = eur(lordo);
+  $("oContr").textContent = eur(contr);
+  $("oImpon").textContent = eur(impon);
+  $("oImp").textContent = eur(imp);
+  $("oTot").textContent = eur(tot);
+  $("oPerc").textContent = ricavi ? (tot / ricavi * 100).toFixed(1).replace(".", ",") + "%" : "-";
+  $("oNetto").textContent = eur(netto);
+  $("oMese").textContent = eur(netto / 12);
+
+  const w = $("oWarn");
+  if (ricavi > 100000) { w.hidden = false; w.textContent = "Oltre 100.000 € esci dal forfettario già nell'anno in corso."; }
+  else if (ricavi > 85000) { w.hidden = false; w.textContent = "Oltre 85.000 € esci dal forfettario dall'anno prossimo."; }
+  else if (fissa && lordo < MINIMALE) { w.hidden = false; w.textContent = "Il tuo reddito è sotto il minimale: paghi comunque la quota fissa."; }
+  else w.hidden = true;
+}
+
+if (PRODUCT_URL) { $("cta").hidden = false; $("ctaLink").href = PRODUCT_URL; }
+document.querySelectorAll("input,select").forEach(el => el.addEventListener("input", calcola));
+calcola();
+</script>
+</body>
+</html>
