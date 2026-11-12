@@ -1,0 +1,32 @@
+:root{--bg:#f7f7f5;--card:#fff;--ink:#1d1d1b;--mute:#62625c;--line:#e3e3de;--accent:#1f6f5c;--warn:#a5481b}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--card:#20201e;--ink:#ecece8;--mute:#a3a39b;--line:#33332f;--accent:#5cc2a6;--warn:#f0905e}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:1.8rem;line-height:1.2;margin:.2em 0 .3em}
+h2{font-size:1.25rem;margin:2em 0 .5em}
+p.lead{color:var(--mute);margin-top:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+label{display:block;font-weight:600;font-size:.92rem;margin-bottom:4px}
+input,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.check{display:flex;gap:8px;align-items:center;font-weight:400}
+.check input{width:auto}
+.hint{font-size:.82rem;color:var(--mute);margin-top:4px}
+.results{margin-top:16px}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);gap:12px}
+.row:last-child{border-bottom:0}
+.big{font-size:1.5rem;font-weight:700;color:var(--accent)}
+.warn{color:var(--warn);font-weight:600}
+.cta{margin-top:24px;border-left:4px solid var(--accent)}
+.cta a{display:inline-block;margin-top:8px;background:var(--accent);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600}
+footer{margin-top:48px;font-size:.82rem;color:var(--mute)}
+[hidden]{display:none!important}
+nav{font-size:.9rem;margin-bottom:8px}
+nav a,p a,li a,td a{color:var(--accent)}
+.table{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.82rem;color:var(--mute);font-weight:600}
+td.d{white-space:nowrap;font-weight:600}
+code{font-size:.88em;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 4px}
