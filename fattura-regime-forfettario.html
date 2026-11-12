@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fattura nel regime forfettario: diciture, bollo e codici (2026)</title>
+<meta name="description" content="Come si fa una fattura elettronica nel regime forfettario: dicitura senza IVA, niente ritenuta d'acconto, marca da bollo da 2 € sopra 77,47 €, codici RF19 e N2.2.">
+<link rel="stylesheet" href="style.css">
+<link rel="canonical" href="https://domdin89.github.io/forfettario/fattura-regime-forfettario.html">
+</head>
+<body>
+<main>
+<nav><a href="./">← Calcolatore regime forfettario</a></nav>
+<h1>Come si fa la fattura nel regime forfettario</h1>
+<p class="lead">Le cose che una fattura forfettaria deve avere: niente IVA, la dicitura giusta, la marca da bollo quando serve e i codici corretti nella fattura elettronica.</p>
+<p class="hint"><strong>Nota:</strong> queste informazioni sono indicative. Per avere la certezza degli importi e delle date che valgono per te, chiedi sempre conferma al tuo commercialista.</p>
+<h2>Cosa scrivere in fattura</h2>
+<ul>
+<li><strong>Niente IVA.</strong> L'importo è senza IVA e va indicato il motivo, con una dicitura come: <em>"Operazione effettuata ai sensi dell'articolo 1, commi da 54 a 89, della Legge n. 190/2014 – Regime forfettario. Operazione senza applicazione dell'IVA"</em>.</li>
+<li><strong>Niente ritenuta d'acconto.</strong> Se il cliente è un'impresa o un professionista, aggiungi: <em>"Si richiede la non applicazione della ritenuta alla fonte a titolo d'acconto ai sensi dell'articolo 1, comma 67, della Legge n. 190/2014"</em>.</li>
+<li><strong>Marca da bollo da 2 €</strong> se l'importo della fattura supera 77,47 €, con la dicitura <em>"Imposta di bollo assolta in modo virtuale ai sensi del DM 17/06/2014"</em>. Puoi addebitare i 2 € al cliente come voce della fattura.</li>
+</ul>
+<p class="hint">Le formule esatte usate dai commercialisti variano un po'; l'importante è citare il regime forfettario e la legge 190/2014.</p>
+
+<h2>Fattura elettronica: i codici</h2>
+<div class="card table">
+<table>
+<thead><tr><th>Campo</th><th>Valore</th></tr></thead>
+<tbody>
+<tr><td>Regime fiscale</td><td><code>RF19</code> (regime forfettario)</td></tr>
+<tr><td>Natura dell'operazione (al posto dell'aliquota IVA)</td><td><code>N2.2</code> (non soggette, altri casi)</td></tr>
+<tr><td>Bollo virtuale</td><td>campo Bollo virtuale = SI, importo 2,00 €</td></tr>
+</tbody>
+</table>
+</div>
+<p>Dal 2024 tutti i forfettari devono emettere fattura elettronica tramite il Sistema di Interscambio, anche verso i privati (al privato consegni anche una copia in PDF o su carta).</p>
+
+<h2>Come si paga il bollo</h2>
+<p>Il bollo delle fatture elettroniche non si paga con la marca adesiva ma con F24, ogni trimestre: l'Agenzia delle Entrate calcola l'importo e lo trovi nell'area "Fatture e Corrispettivi". Codici tributo e date sono nella pagina <a href="scadenze-f24-forfettario.html">scadenze F24 per i forfettari</a>.</p>
+
+<div class="card cta">
+  <strong>Registri già le fatture? Fai fare i conti al file</strong>
+  <p>Nel Gestionale Forfettario 2026 inserisci gli incassi con il bollo: calcola il bollo di ogni trimestre, tasse e contributi INPS, e ti avvisa quando ti avvicini agli 85.000 €.</p>
+  <a href="https://forfettariofacile.gumroad.com/l/gestionale-forfettario-2026">Scarica il Gestionale Excel – 9 €</a>
+</div>
+
+<h2>Quando conta l'incasso</h2>
+<p>Nel forfettario conta il <strong>principio di cassa</strong>: i ricavi valgono nell'anno in cui li incassi, non in quello della fattura. Una fattura emessa a dicembre e pagata a gennaio entra nei ricavi dell'anno dopo, sia per le tasse sia per il limite degli 85.000 €.</p>
+
+<h2>Altre guide</h2>
+<ul>
+<li><a href="./">Calcolatore regime forfettario 2026</a></li>
+<li><a href="scadenze-f24-forfettario.html">Scadenze F24 per i forfettari</a></li>
+<li><a href="quanto-accantonare-forfettario.html">Quanto accantonare per le tasse</a></li>
+<li><a href="contributi-inps-forfettario-2026.html">Contributi INPS 2026 per i forfettari</a></li>
+<li><a href="coefficienti-redditivita-ateco.html">Coefficienti di redditività per codice ATECO</a></li>
+</ul>
+
+<footer>
+<p>Guida informativa, non sostituisce un commercialista: per avere la certezza chiedi sempre conferma al tuo. Valori 2026 da fonti pubbliche (legge 190/2014, circolari INPS). Ultimo aggiornamento: novembre 2026.</p>
+</footer>
+</main>
+</body>
+</html>
