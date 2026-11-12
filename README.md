@@ -20,7 +20,7 @@ Se una stima non ti basta, c'è il **Gestionale Regime Forfettario 2026**, un fi
 - calendario delle scadenze F24 (saldo, acconti, rate INPS, bollo) con i codici tributo
 - avviso quando ti avvicini alla soglia degli 85.000 €
 
-👉 **[Acquistalo su Gumroad a 9 €](https://pizzalover88.gumroad.com/l/gestionale-forfettario-2026)**
+👉 **[Acquistalo su Gumroad a 9 €](https://forfettariofacile.gumroad.com/l/gestionale-forfettario-2026)**
 
 ## Avvertenza
 
