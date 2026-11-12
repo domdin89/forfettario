@@ -105,7 +105,7 @@ footer{margin-top:48px;font-size:.82rem;color:var(--mute)}
 <h2>Come funziona il calcolo</h2>
 <p>Nel regime forfettario non si deducono i costi reali: il reddito si ottiene moltiplicando i ricavi incassati per il <strong>coefficiente di redditività</strong> della tua attività. Da questo reddito si sottraggono i contributi previdenziali versati, e sul risultato si applica l'<strong>imposta sostitutiva</strong> del 15% (5% per i primi cinque anni di una nuova attività, se hai i requisiti).</p>
 <h2>Contributi INPS 2026</h2>
-<p><strong>Gestione Separata:</strong> si paga una percentuale del reddito lordo, senza minimi. <strong>Artigiani e commercianti:</strong> si paga una quota fissa sul reddito minimale di 18.808 € (circa 4.521 € per gli artigiani e 4.611 € per i commercianti), più il 24% (24,48% per i commercianti) sulla parte di reddito che supera il minimale. I forfettari possono chiedere la riduzione del 35%.</p>
+<p><strong>Gestione Separata:</strong> si paga il 26,07% del reddito lordo, senza minimi, fino al massimale di 122.295 €. <strong>Artigiani e commercianti:</strong> si paga una quota fissa sul reddito minimale di 18.808 € (4.521,36 € per gli artigiani e 4.611,64 € per i commercianti), più il 24% (24,48% per i commercianti) sulla parte di reddito che supera il minimale, che sale al 25% (25,48%) oltre i 56.224 €. I forfettari possono chiedere la riduzione del 35%.</p>
 <h2>Limiti del regime</h2>
 <p>Si resta nel forfettario fino a 85.000 € di ricavi annui. Se li superi ma resti sotto i 100.000 €, esci dall'anno successivo; oltre i 100.000 € esci subito, dall'anno in corso.</p>
 
@@ -115,8 +115,10 @@ footer{margin-top:48px;font-size:.82rem;color:var(--mute)}
 </main>
 <script>
 const MINIMALE = 18808;
-const FISSO = {art: 4521, com: 4611};
-const OLTRE = {art: 0.24, com: 0.2448};
+const FISSO = {art: 4521.36, com: 4611.64}; // circolare INPS 14/2026
+const OLTRE = {art: 0.24, com: 0.2448};    // +1 punto oltre FASCIA
+const FASCIA = 56224;
+const MASSIMALE = 122295;
 const PRODUCT_URL = ""; // link al prodotto, da inserire dopo la pubblicazione
 
 const $ = id => document.getElementById(id);
@@ -124,12 +126,16 @@ const eur = n => n.toLocaleString("it-IT", {style: "currency", currency: "EUR", 
 
 function contributi(lordo, cassa) {
   if (cassa === "art" || cassa === "com") {
-    let c = FISSO[cassa] + Math.max(0, lordo - MINIMALE) * OLTRE[cassa];
+    const base = Math.min(lordo, MASSIMALE);
+    let c = FISSO[cassa]
+      + Math.max(0, Math.min(base, FASCIA) - MINIMALE) * OLTRE[cassa]
+      + Math.max(0, base - FASCIA) * (OLTRE[cassa] + 0.01);
     if ($("rid").checked) c *= 0.65;
     return c;
   }
   const aliq = Math.max(0, parseFloat($("aliq").value) || 0);
-  return lordo * aliq / 100;
+  const base = cassa === "gs" ? Math.min(lordo, MASSIMALE) : lordo;
+  return base * aliq / 100;
 }
 
 function calcola() {
@@ -140,7 +146,7 @@ function calcola() {
   $("boxAliq").hidden = fissa;
   $("boxRid").hidden = !fissa;
   $("aliqHint").textContent = cassa === "gs"
-    ? "Gestione Separata 2026: 26,07% (alcune fonti indicano 26,23%)."
+    ? "Gestione Separata 2026: 26,07% (circolare INPS 8/2026)."
     : "Inserisci l'aliquota della tua cassa (es. Inarcassa, Cassa Forense).";
 
   const lordo = ricavi * coef;
